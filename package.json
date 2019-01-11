@@ -1,0 +1,22 @@
+{
+  "name": "loom-provider-json-rpc-proxy",
+  "author": {
+    "name": "Loom Network",
+    "url": "https://loomx.io"
+  },
+  "version": "0.1.0",
+  "private": true,
+  "bin": "dist/index.js",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "rm -rf dist && mkdir dist && tsc"
+  },
+  "devDependencies": {
+    "@types/node": "^10.12.18",
+    "@types/web3": "^1.0.14",
+    "loom-js": "^1.38.4",
+    "prettier": "^1.15.3",
+    "typescript": "^3.2.2",
+    "web3": "^1.0.0-beta.37"
+  }
+}

@@ -1,0 +1,12 @@
+/.vscode/
+/dist/tests/
+/dist/browser_tests.js
+/scripts/
+/src/
+.prettierignore
+.prettierrc
+tsconfig.json
+es2017.tsconfig.json
+tslint.json
+yarn-error.log
+yarn.lock
