@@ -56,3 +56,9 @@ curl -v -X POST --data '{"jsonrpc":"2.0","method":"eth_getBlockByNumber","params
 #   }
 # }
 ```
+
+## Using with Remix
+
+Also is possible to use [Remix](https://remix.ethereum.org), just select `Web3 Provider` on dropdown button `Environment` and set the host like `http://localhost:8080` and now you can use `Remix` to develop and test your `Solidity` smart contracts on `Loomchain`
+
+> The current provider do not supports Remix debug mechanism
