@@ -1,5 +1,6 @@
 import http from 'http'
 import { CryptoUtils, LoomProvider, Client, ClientEvent } from 'loom-js'
+import { IEthRPCPayload } from 'loom-js/dist/loom-provider'
 
 // Default chain
 const chainEndpoint = process.env.CHAIN_ENDPOINT || 'wss://plasma.dappchains.com'
@@ -12,6 +13,9 @@ const privateKey = CryptoUtils.generatePrivateKey()
 const client = new Client('default', `${chainEndpoint}/websocket`, `${chainEndpoint}/queryws`)
 const loomProvider = new LoomProvider(client, privateKey)
 
+// Used by Remix https://remix.ethereum.org
+loomProvider.addCustomMethod('net_listening', (payload: IEthRPCPayload) => true)
+
 client.on(ClientEvent.Error, msg => {
   console.error('Error on client:', msg)
 })
@@ -21,6 +25,12 @@ console.log(`Proxy calls from HTTP port ${port} to WS ${chainEndpoint}`)
 // Let's serve the Proxy
 http
   .createServer((req: http.IncomingMessage, res: http.ServerResponse) => {
+    // Set CORS headers
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader('Access-Control-Request-Method', '*')
+    res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, POST')
+    res.setHeader('Access-Control-Allow-Headers', '*')
+
     // POST is accepted otherwise BAD GATEWAY
     if (req.method === 'POST') {
       try {
@@ -41,11 +51,6 @@ http
         res.end()
       }
     } else if (req.method === 'OPTIONS') {
-      // Set CORS headers
-      res.setHeader('Access-Control-Allow-Origin', '*')
-      res.setHeader('Access-Control-Request-Method', '*')
-      res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, POST')
-      res.setHeader('Access-Control-Allow-Headers', '*')
       res.writeHead(200)
       res.end()
     } else {
