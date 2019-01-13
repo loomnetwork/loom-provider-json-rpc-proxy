@@ -15,7 +15,7 @@ node .
 yarn build; node .
 ```
 
-The default configuration for this proxy will connect to `PlasmaChain` on `wss://plasma.dappchains.com` and serve the `HTTP` interface on port `8080`, however those values can be tweak by using environment variables as the following example:
+The default configuration for this proxy will connect to `PlasmaChain` on `wss://plasma.dappchains.com` and serve the `HTTP` interface on port `8080`, however those values can be tweaked by using environment variables as the following example:
 
 ```bash
 yarn build;
@@ -59,6 +59,22 @@ curl -v -X POST --data '{"jsonrpc":"2.0","method":"eth_getBlockByNumber","params
 
 ## Using with Remix
 
-Also is possible to use [Remix](https://remix.ethereum.org), just select `Web3 Provider` on dropdown button `Environment` and set the host like `http://localhost:8080` and now you can use `Remix` to develop and test your `Solidity` smart contracts on `Loomchain`
+Also is possible to use [Remix](https://remix.ethereum.org)
 
 > The current provider do not supports Remix debug mechanism
+
+### Example of Remix usage
+
+```bash
+# Start a local Loomchain
+loom init -f
+loom run
+```
+
+```bash
+# On a second terminal start this tool
+yarn build;
+PORT=8545 CHAIN_ENDPOINT="ws://localhost:46658" node .
+```
+
+On a web browser access the [Remix](https://remix.ethereum.org), click on tab `Run` and select `Web3 Provider` on dropdown button `Environment` and set the host like `http://localhost:8545` and now you can use `Remix` to develop and test your `Solidity` smart contracts on `Loomchain`
