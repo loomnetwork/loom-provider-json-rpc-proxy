@@ -77,4 +77,4 @@ yarn build;
 PORT=8545 CHAIN_ENDPOINT="ws://localhost:46658" node .
 ```
 
-On a web browser access the [Remix](https://remix.ethereum.org), click on tab `Run` and select `Web3 Provider` on dropdown button `Environment` and set the host like `http://localhost:8545` and now you can use `Remix` to develop and test your `Solidity` smart contracts on `Loomchain`
+On a web browser access the [Remix](https://remix.ethereum.org), click on tab `Run` and select `Web3 Provider` on dropdown button `Environment` and set the host to `http://localhost:8545` and now you can use `Remix` to develop and test your `Solidity` smart contracts on `Loomchain`
