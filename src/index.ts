@@ -41,9 +41,15 @@ http
         })
 
         req.on('end', async () => {
-          // Proxy JSON RPC to LoomProvider
-          const result = await loomProvider.sendAsync(JSON.parse(body))
-          res.end(JSON.stringify(result))
+          try {
+            // Proxy JSON RPC to LoomProvider
+            const result = await loomProvider.sendAsync(JSON.parse(body))
+            res.end(JSON.stringify(result))
+          } catch (err) {
+            console.error(err)
+            res.statusCode = 500 // INTERNAL ERROR
+            res.end(err.data ? err.data : err.message)
+          }
         })
       } catch (err) {
         console.error(err)
