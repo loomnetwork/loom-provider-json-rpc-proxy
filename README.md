@@ -15,12 +15,14 @@ node .
 yarn build; node .
 ```
 
-The default configuration for this proxy will connect to `PlasmaChain` on `wss://plasma.dappchains.com` and serve the `HTTP` interface on port `8080`, however those values can be tweaked by using environment variables as the following example:
+The default configuration for this proxy will connect to `PlasmaChain` on `wss://plasma.dappchains.com` and serve the `HTTP/WS` interface on port `8081`, however those values can be tweaked by using environment variables as the following example:
 
 ```bash
 yarn build;
-PORT=80 CHAIN_ENDPOINT="ws://localhost:46658" node .
+WSPORT=80 CHAIN_ENDPOINT="ws://localhost:46658" node .
 ```
+
+It's possible to debug calls by adding the env var `DEBUG=loom-provider-json-rpc-proxy`
 
 ## Testing
 
@@ -55,6 +57,22 @@ curl -v -X POST --data '{"jsonrpc":"2.0","method":"eth_getBlockByNumber","params
 #     "number": "0x0"
 #   }
 # }
+```
+
+## Dockerize
+
+Another option is to use the Docker version by build the docker image and run like
+
+Build an image
+
+```bash
+docker build -t loom-provider-json-rpc-proxy .
+```
+
+Then
+
+```bash
+docker run -p 8545:8545 -e DEBUG=loom-provider-json-rpc-proxy -e WSPORT=8545 -e CHAIN_ENDPOINT=ws://192.168.100.23:46658 loom-provider-json-rpc-proxy
 ```
 
 ## Using with Remix
