@@ -47,7 +47,7 @@ const randomValueHex = (len: number) => {
 
 let parentHash = `0x${randomValueHex(64)}`
 
-let transactionsOnBlock: any
+let transactionsOnBlock: any = {}
 
 // Ugly hack to fix block 0 support
 const getBlockZero = (id: any) => {
@@ -177,7 +177,7 @@ const server = http.createServer((req: http.IncomingMessage, res: http.ServerRes
           }
 
           if (bodyObj.method == 'eth_getBlockByNumber') {
-            const transactions = transactionsOnBlock[bodyObj.hash]
+            const transactions = transactionsOnBlock[bodyObj.hash] || []
 
             // Ugly hack to complete the needed info
             payload.result = Object.assign({}, payload.result, {
