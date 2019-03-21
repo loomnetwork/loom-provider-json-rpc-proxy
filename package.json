@@ -12,11 +12,19 @@
     "build": "rm -rf dist && mkdir dist && tsc"
   },
   "devDependencies": {
+    "@types/debug": "^4.1.2",
     "@types/node": "^10.12.18",
     "@types/web3": "^1.0.14",
     "loom-js": "^1.38.4",
     "prettier": "^1.15.3",
     "typescript": "^3.2.2",
     "web3": "^1.0.0-beta.37"
+  },
+  "dependencies": {
+    "@types/websocket": "^0.0.40",
+    "@types/ws": "^6.0.1",
+    "debug": "^4.1.1",
+    "websocket": "^1.0.28",
+    "ws": "^6.2.0"
   }
 }
