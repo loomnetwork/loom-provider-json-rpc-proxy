@@ -18,7 +18,11 @@ const WS_PORT = process.env.WSPORT || 8081
 const privateKey = CryptoUtils.generatePrivateKey()
 const client = new Client('default', `${CHAIN_ENDPOINT}/websocket`, `${CHAIN_ENDPOINT}/queryws`)
 const loomProvider = new LoomProvider(client, privateKey)
+
+// Loom Provider without vars out of the eth specification
 loomProvider.strict = true
+
+// Need to retry some calls because the indexer is a machine gun of calls per sec
 loomProvider.retryStrategy.retries = 50
 loomProvider.retryStrategy.minTimeout = 20000
 loomProvider.retryStrategy.maxTimeout = 50000
@@ -45,6 +49,7 @@ let parentHash = `0x${randomValueHex(64)}`
 
 let transactionsOnBlock: any
 
+// Ugly hack to fix block 0 support
 const getBlockZero = (id: any) => {
   const r = {
     id,
@@ -93,6 +98,7 @@ log(`Proxy calls from WS port ${WS_PORT} and connected to WS ${CHAIN_ENDPOINT}`)
 
 const wss = new ws.Server({ noServer: true })
 
+// Only to avoid the errors, but not responding ok
 wss.on('connection', (ws: any) => {
   ws.on('message', async (message: any) => {
     log(`WS Message ${message}`)
@@ -100,6 +106,7 @@ wss.on('connection', (ws: any) => {
     log(`WS Response ${payload}`)
     ws.send(payload)
 
+    // This still not working completely
     loomProvider.on('data', (payload: any) => {
       payload.params.result = Object.assign({}, payload.params.result, {
         // blockNumber: `${parseInt(payload.params.result.blockNumber)}`,
@@ -172,8 +179,9 @@ const server = http.createServer((req: http.IncomingMessage, res: http.ServerRes
           if (bodyObj.method == 'eth_getBlockByNumber') {
             const transactions = transactionsOnBlock[bodyObj.hash]
 
+            // Ugly hack to complete the needed info
             payload.result = Object.assign({}, payload.result, {
-              // parentHash,
+              // Fixed miner or error on explorer
               miner: '0xB3B1ab0A0531C59E97adcC2c0067c84031f57CEF',
               difficulty: '0x01',
               gasLimit: '0x01',
@@ -183,10 +191,9 @@ const server = http.createServer((req: http.IncomingMessage, res: http.ServerRes
               timestamp: '0x54e34e8e',
               transactions
             })
-
-            // parentHash = payload.result.hash
           }
 
+          // Ugly hack to cache the tx info to patch something missing on tx info form chain
           if (bodyObj.method == 'eth_getTransactionReceipt') {
             bodyObj.result.logs.forEach((log: any) => {
               transactionsOnBlock[log.blockHash] = log
@@ -230,25 +237,3 @@ server.on('upgrade', (request, socket, head) => {
 server.listen(WS_PORT, () => {
   log(`${new Date()} Server is listening on port ${WS_PORT}`)
 })
-
-// const ws = new websocket.Server({ port: +WS_PORT })
-
-// client.addListener(ClientEvent.EVMEvent, (v: any) => {
-//   console.log('v', v)
-// })
-
-// ws.on('connection', ws => {
-//   ws.on('message', async message => {
-//     const body = message as string
-//     log(`WS Payload ${JSON.stringify(JSON.parse(body), null, 2)}`)
-
-//     // Proxy JSON RPC to LoomProvider
-//     const result = await loomProvider.sendAsync(JSON.parse(body))
-//     const jsonResponse = JSON.stringify(result, null, 2)
-
-//     ws.send(jsonResponse)
-//   })
-// })
-
-//   })
-//   .listen(port)
