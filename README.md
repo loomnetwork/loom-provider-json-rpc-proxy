@@ -19,8 +19,14 @@ The default configuration for this proxy will connect to `PlasmaChain` on `wss:/
 
 ```bash
 yarn build;
-WSPORT=80 CHAIN_ENDPOINT="ws://localhost:46658" node .
+CHAIN_ID=mychain WS_PORT=80 CHAIN_ENDPOINT="ws://localhost:46658" node .
 ```
+
+Options:
+
+* **WS_PORT**: It's the port of http/ws for JSON RPC requests
+* **CHAIN_ID**: Configures the chain id name, each chain has an id, being default the default id
+* **CHAIN_ENDPOINT**: And finally the address of the loomchain endpoint
 
 It's possible to debug calls by adding the env var `DEBUG=loom-provider-json-rpc-proxy`
 

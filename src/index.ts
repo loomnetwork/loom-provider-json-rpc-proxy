@@ -7,15 +7,17 @@ import { IEthRPCPayload } from 'loom-js/dist/loom-provider'
 const log = debug('loom-provider-json-rpc-proxy')
 const error = debug('loom-provider-json-rpc-proxy:error')
 
+const CHAIN_ID = process.env.CHAIN_ID || 'default'
+
 // Default chain
 const CHAIN_ENDPOINT = process.env.CHAIN_ENDPOINT || 'wss://plasma.dappchains.com'
 
 // Default port
-const WS_PORT = process.env.WSPORT || 8081
+const WS_PORT = process.env.WS_PORT || 8081
 
 // Initialize Client and LoomProvider
 const privateKey = CryptoUtils.generatePrivateKey()
-const client = new Client('default', `${CHAIN_ENDPOINT}/websocket`, `${CHAIN_ENDPOINT}/queryws`)
+const client = new Client(CHAIN_ID, `${CHAIN_ENDPOINT}/websocket`, `${CHAIN_ENDPOINT}/queryws`)
 const loomProvider = new LoomProvider(client, privateKey)
 
 // Loom Provider without vars out of the eth specification
