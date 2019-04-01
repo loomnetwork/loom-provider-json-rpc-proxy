@@ -2,6 +2,9 @@ import http from 'http'
 import { CryptoUtils, LoomProvider, Client, ClientEvent } from 'loom-js'
 import { IEthRPCPayload } from 'loom-js/dist/loom-provider'
 
+// Default chain id
+const chainId = process.env.CHAIN_ID || 'default'
+
 // Default chain
 const chainEndpoint = process.env.CHAIN_ENDPOINT || 'wss://plasma.dappchains.com'
 
@@ -10,7 +13,7 @@ const port = process.env.PORT || 8080
 
 // Initialize Client and LoomProvider
 const privateKey = CryptoUtils.generatePrivateKey()
-const client = new Client('default', `${chainEndpoint}/websocket`, `${chainEndpoint}/queryws`)
+const client = new Client(chainId, `${chainEndpoint}/websocket`, `${chainEndpoint}/queryws`)
 const loomProvider = new LoomProvider(client, privateKey)
 
 // Used by Remix https://remix.ethereum.org
