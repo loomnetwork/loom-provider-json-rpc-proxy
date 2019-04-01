@@ -1410,10 +1410,9 @@ lodash@4, lodash@^4.17.11:
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
   integrity sha512-cQKh8igo5QUhZ7lg38DYWAxMvjSAKG0A8wGSVimP07SIUEK2UO+arSRKbRZWtelMtN5V0Hkwh5ryOto/SshYIg==
 
-loom-js@^1.38.4:
-  version "1.38.4"
-  resolved "https://registry.yarnpkg.com/loom-js/-/loom-js-1.38.4.tgz#76ce67fe272f9e0fcb21cc84815170f1aaf4c1e7"
-  integrity sha512-rzs/b7XgmWWK1CKjhXiBUNZ1ViWhfizhgoLogRuy7aAmPXtwKzaPd+uUV0TO/GgkrPhNIQqTrY7ZD17elcacaA==
+"loom-js@github:loomnetwork/loom-js#build-files-ed":
+  version "1.49.1"
+  resolved "https://codeload.github.com/loomnetwork/loom-js/tar.gz/bcfe56bdb93206d03b50ab0a29255dc8369c39c7"
   dependencies:
     abi-decoder "^1.2.0"
     axios "^0.18.0"

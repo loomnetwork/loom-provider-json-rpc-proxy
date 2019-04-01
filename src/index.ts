@@ -1,8 +1,10 @@
 import http from 'http'
-import ws from 'ws'
+import WSWebSocket from 'ws'
 import debug from 'debug'
 import { CryptoUtils, LoomProvider, Client, ClientEvent } from 'loom-js'
 import { IEthRPCPayload } from 'loom-js/dist/loom-provider'
+
+const Web3 = require('web3')
 
 const log = debug('loom-provider-json-rpc-proxy')
 const error = debug('loom-provider-json-rpc-proxy:error')
@@ -45,12 +47,17 @@ const processMessage = async (body: any, returnJSON: boolean = true) => {
 
 log(`Proxy calls from WS port ${WS_PORT} and connected to WS ${CHAIN_ENDPOINT}`)
 
-const wss = new ws.Server({ noServer: true })
+const wss = new WSWebSocket.Server({ noServer: true })
+
+const web3 = new Web3(new Web3.providers.WebsocketProvider('ws://127.0.0.1:46658/eth'))
+
+const subscriptions: Array<string> = []
 
 // Only to avoid the errors, but not responding ok
 wss.on('connection', (ws: any) => {
   ws.on('message', async (message: any) => {
     log(`WS Message ${message}`)
+
     const payload = await processMessage(message)
     log(`WS Response ${payload}`)
     ws.send(payload)
@@ -58,7 +65,7 @@ wss.on('connection', (ws: any) => {
     // This still not working completely
     loomProvider.on('data', (payload: any) => {
       // TODO: Not responding yet
-      // ws.send(payload)
+      ws.send(payload)
     })
   })
 })
