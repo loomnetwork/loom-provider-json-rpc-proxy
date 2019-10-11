@@ -13,10 +13,10 @@
   },
   "devDependencies": {
     "@types/node": "^10.12.18",
-    "@types/web3": "^1.0.14",
-    "loom-js": "^1.38.4",
+    "@types/web3": "^1.0.20",
+    "loom-js": "^1.60.0",
     "prettier": "^1.15.3",
     "typescript": "^3.2.2",
-    "web3": "^1.0.0-beta.37"
+    "web3": "^1.2.1"
   }
 }

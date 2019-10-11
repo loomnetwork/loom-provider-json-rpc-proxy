@@ -13,7 +13,7 @@ const port = process.env.PORT || 8080
 
 // Initialize Client and LoomProvider
 const privateKey = CryptoUtils.generatePrivateKey()
-const client = new Client(chainId, `${chainEndpoint}/websocket`, `${chainEndpoint}/queryws`)
+const client = new Client(chainId, `${chainEndpoint}/websocket`, `${chainEndpoint}/eth`)
 const loomProvider = new LoomProvider(client, privateKey)
 
 // Used by Remix https://remix.ethereum.org
